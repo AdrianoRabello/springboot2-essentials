@@ -1,0 +1,25 @@
+version: "3.0"
+services:
+  springboot2-essentials:
+    container_name: springboot2-essentials
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: springboot2-essentials
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - springboot2-essentials
+
+
+
+volumes:
+  mysql:
+networks:
+  springboot2-essentials:
+    driver: bridge
