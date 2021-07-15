@@ -26,8 +26,10 @@ public class AnimeService {
         return animeDTOPage;
     }
 
-    public List<Anime> findAll() {
-        return animeComponent.findAll();
+    public List<AnimeDTO> findAll() {
+        List<Anime> animeDTOList = animeComponent.findAll();
+
+        return animeDTOList.stream().map(dto -> AnimeParse.parseAnimeToAnimeDTO(dto)).collect(Collectors.toList());
     }
 
     public AnimeDTO findById(Long id) {
@@ -45,8 +47,8 @@ public class AnimeService {
     public AnimeDTO update(AnimeDTO dto) {
 
         Anime anime = animeComponent.findById(dto.getId());
-        animeComponent.updateData(anime, dto);
-        anime = animeComponent.save(anime);
+        anime = animeComponent.updateData(anime, dto);
+        anime = animeComponent.update(anime);
         return AnimeParse.parseAnimeToAnimeDTO(anime);
     }
 

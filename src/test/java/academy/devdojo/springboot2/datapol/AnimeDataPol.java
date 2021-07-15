@@ -36,7 +36,7 @@ public class AnimeDataPol {
     public static AnimeDTO getAnimeDTOUpdated(){
         return AnimeDTO.builder()
                 .id(1L)
-                .name(getAnimeDTOUpdated().getName())
+                .name("Naruto 2")
                 .updated(LocalDateTime.now())
                 .build();
     }

@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -29,31 +30,24 @@ public class AnimeControllerTest {
     @Mock
     private AnimeService animeService;
 
-    @Mock
-    private AnimeComponent animeComponent;
-
 
     @BeforeEach
     void beforeEach() {
 
         PageImpl<AnimeDTO> animePage = new PageImpl<>(List.of(AnimeDataPol.getAnimeDTOSaved()));
 
-        Mockito.when(animeService.findAll(ArgumentMatchers.any())).thenReturn(animePage);
+        Mockito.when(animeService.findAll(ArgumentMatchers.any(PageRequest.class))).thenReturn(animePage);
 
-        Mockito.when(animeService.findAll()).thenReturn(List.of(AnimeDataPol.getAnimeSaved(), AnimeDataPol.getAnimeSaved()));
+        Mockito.when(animeService.findAll()).thenReturn(List.of(AnimeDataPol.getAnimeDTOSaved(), AnimeDataPol.getAnimeDTOSaved()));
 
         Mockito.when(animeService.findById(ArgumentMatchers.any())).thenReturn(AnimeDataPol.getAnimeDTOSaved());
-
-        Mockito.when(animeComponent.create(ArgumentMatchers.any())).thenReturn(AnimeDataPol.createAnimeToSave());
-
-        Mockito.when(animeComponent.save(ArgumentMatchers.any(Anime.class))).thenReturn(AnimeDataPol.getAnimeSaved());
 
         Mockito.when(animeService.save(ArgumentMatchers.any(AnimeDTO.class))).thenReturn(AnimeDataPol.getAnimeDTOSaved());
 
     }
 
     @Test
-    @DisplayName("Should not return empt page")
+    @DisplayName("Should not return empty page")
     void shuldNotRetournEmptyPage() {
 
         Anime animeSaved = AnimeDataPol.getAnimeSaved();
@@ -105,6 +99,8 @@ public class AnimeControllerTest {
 
         Assertions.assertThat(animeController.save(AnimeDataPol.crateAnimeDTO()).getBody().getCreated()).isNotNull();
     }
+
+
 
 
 }
