@@ -1,35 +1,36 @@
 package academy.devdojo.springboot2.service;
 
-import academy.devdojo.springboot2.components.AnimeComponent;
 import academy.devdojo.springboot2.domain.Anime;
-import academy.devdojo.springboot2.domain.dto.AnimeDTO;
-import academy.devdojo.springboot2.domain.parser.AnimeParse;
-import academy.devdojo.springboot2.exceptions.BadRequestException;
-import academy.devdojo.springboot2.repository.AnimeRepository;
+import academy.devdojo.springboot2.components.AnimeComponent;
+import academy.devdojo.springboot2.dto.AnimeDTO;
+import academy.devdojo.springboot2.parser.AnimeParse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AnimeService {
 
-    private final AnimeRepository animeRepository;
 
     private final AnimeComponent animeComponent;
 
-    public Page<Anime> findAll(Pageable pageable){
-        return animeRepository.findAll(pageable);
+    public Page<AnimeDTO> findAll(Pageable pageable) {
+        Page<Anime> all = animeComponent.findAll(pageable);
+        PageImpl<AnimeDTO> animeDTOPage = new PageImpl<>(all.getContent().stream().map(anime -> AnimeParse.parseAnimeToAnimeDTO(anime)).collect(Collectors.toList()));
+        return animeDTOPage;
     }
 
-    public List<Anime> findAll(){
-        return animeRepository.findAll();
+    public List<Anime> findAll() {
+        return animeComponent.findAll();
     }
 
-    public AnimeDTO findById(Long id){
+    public AnimeDTO findById(Long id) {
 
         Anime anime = animeComponent.findById(id);
         return AnimeParse.parseAnimeToAnimeDTO(anime);
@@ -37,14 +38,14 @@ public class AnimeService {
 
     public AnimeDTO save(AnimeDTO dto) {
         Anime anime = animeComponent.create(dto);
-        anime =  animeComponent.save(anime);
+        anime = animeComponent.save(anime);
         return AnimeParse.parseAnimeToAnimeDTO(anime);
     }
 
-    public AnimeDTO update(AnimeDTO dto){
+    public AnimeDTO update(AnimeDTO dto) {
 
         Anime anime = animeComponent.findById(dto.getId());
-        animeComponent.updateData(anime,dto);
+        animeComponent.updateData(anime, dto);
         anime = animeComponent.save(anime);
         return AnimeParse.parseAnimeToAnimeDTO(anime);
     }

@@ -1,7 +1,7 @@
-package academy.devdojo.springboot2.domain.parser;
+package academy.devdojo.springboot2.parser;
 
 import academy.devdojo.springboot2.domain.Anime;
-import academy.devdojo.springboot2.domain.dto.AnimeDTO;
+import academy.devdojo.springboot2.dto.AnimeDTO;
 
 public class AnimeParse {
 

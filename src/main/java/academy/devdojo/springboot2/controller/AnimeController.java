@@ -1,7 +1,7 @@
 package academy.devdojo.springboot2.controller;
 
 import academy.devdojo.springboot2.domain.Anime;
-import academy.devdojo.springboot2.domain.dto.AnimeDTO;
+import academy.devdojo.springboot2.dto.AnimeDTO;
 import academy.devdojo.springboot2.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("anime")
+@RequestMapping("animes")
 @RequiredArgsConstructor
 @Slf4j
 public class AnimeController {
@@ -29,7 +29,7 @@ public class AnimeController {
     }
 
     @GetMapping("/pageable")
-    public ResponseEntity<Page<Anime>> page(Pageable pageable){
+    public ResponseEntity<Page<AnimeDTO>> page(Pageable pageable){
 
         return ResponseEntity.ok().body(animeService.findAll(pageable));
     }

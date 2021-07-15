@@ -1,4 +1,4 @@
-package academy.devdojo.springboot2.domain.dto;
+package academy.devdojo.springboot2.dto;
 
 import lombok.*;
 
@@ -18,4 +18,5 @@ public class AnimeDTO {
     @NotNull(message = "Name field can't be empty" )
     private String name;
     private LocalDateTime created;
+    private LocalDateTime updated;
 }

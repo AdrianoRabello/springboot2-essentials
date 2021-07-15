@@ -1,6 +1,9 @@
 package academy.devdojo.springboot2.handler;
 
-import academy.devdojo.springboot2.exceptions.*;
+import academy.devdojo.springboot2.exceptions.BadRequestException;
+import academy.devdojo.springboot2.exceptions.BadRequestExceptionDetail;
+import academy.devdojo.springboot2.exceptions.FieldValidation;
+import academy.devdojo.springboot2.exceptions.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
