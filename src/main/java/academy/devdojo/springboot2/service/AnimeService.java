@@ -3,8 +3,10 @@ package academy.devdojo.springboot2.service;
 import academy.devdojo.springboot2.domain.Anime;
 import academy.devdojo.springboot2.components.AnimeComponent;
 import academy.devdojo.springboot2.dto.AnimeDTO;
+import academy.devdojo.springboot2.mapper.AnimeMapper;
 import academy.devdojo.springboot2.parser.AnimeParse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,11 +16,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class AnimeService {
 
 
-    private final AnimeComponent animeComponent;
+    private  AnimeComponent animeComponent;
+
+    @Autowired
+    public AnimeService(AnimeComponent animeComponent) {
+        this.animeComponent = animeComponent;
+    }
 
     public Page<AnimeDTO> findAll(Pageable pageable) {
         Page<Anime> all = animeComponent.findAll(pageable);
@@ -28,24 +34,23 @@ public class AnimeService {
 
     public List<AnimeDTO> findAll() {
         List<Anime> animeDTOList = animeComponent.findAll();
-
         return animeDTOList.stream().map(dto -> AnimeParse.parseAnimeToAnimeDTO(dto)).collect(Collectors.toList());
     }
 
     public AnimeDTO findById(Long id) {
-
         Anime anime = animeComponent.findById(id);
         return AnimeParse.parseAnimeToAnimeDTO(anime);
     }
 
     public AnimeDTO save(AnimeDTO dto) {
-        Anime anime = animeComponent.create(dto);
+
+        Anime anime = AnimeMapper.INSTANCE.toAnime(dto);
+//        Anime anime = animeComponent.create(dto);
         anime = animeComponent.save(anime);
         return AnimeParse.parseAnimeToAnimeDTO(anime);
     }
 
     public AnimeDTO update(AnimeDTO dto) {
-
         Anime anime = animeComponent.findById(dto.getId());
         anime = animeComponent.updateData(anime, dto);
         anime = animeComponent.update(anime);

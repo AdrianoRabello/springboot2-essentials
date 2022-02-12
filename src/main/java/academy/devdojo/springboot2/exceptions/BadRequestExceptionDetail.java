@@ -4,7 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 
-@Getter
+@Data
 @SuperBuilder
 public class BadRequestExceptionDetail extends ExceptionDetail{
 }

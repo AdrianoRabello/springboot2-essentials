@@ -5,6 +5,7 @@ import academy.devdojo.springboot2.dto.AnimeDTO;
 import academy.devdojo.springboot2.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.jni.Local;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,26 +17,31 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-@RequiredArgsConstructor
 public class AnimeComponent {
 
 
-    private final AnimeRepository animeRepository;
+    private AnimeRepository animeRepository;
 
+    @Autowired
+    public AnimeComponent(AnimeRepository animeRepository) {
+        this.animeRepository = animeRepository;
+    }
 
     public Anime save(Anime anime) {
-
         return animeRepository.save(anime);
     }
 
     public Anime update(Anime anime){
-
         anime.setUpdated(LocalDateTime.now());
         return animeRepository.save(anime);
     }
 
     public Anime create(AnimeDTO dto) {
-        return Anime.builder().name(dto.getName()).created(LocalDateTime.now()).build();
+        return new Anime
+                .Builder()
+                .name(dto.getName())
+                .created(LocalDateTime.now())
+                .build();
     }
 
     public Anime updateData(Anime anime, AnimeDTO dto) {
@@ -43,16 +49,11 @@ public class AnimeComponent {
         return anime;
     }
 
-
-
-
-
     public List<Anime> findAll() {
         return animeRepository.findAll();
     }
 
     public Page<Anime> findAll(Pageable pageable) {
-
         return animeRepository.findAll(pageable);
     }
 
@@ -61,7 +62,7 @@ public class AnimeComponent {
     }
 
     public Anime findById(Long id) {
-        return animeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Resource not found"));
+        return animeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
     }
 
 }

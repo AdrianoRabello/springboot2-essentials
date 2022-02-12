@@ -1,20 +1,20 @@
 package academy.devdojo.springboot2.exceptions;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Data
 @SuperBuilder
-public class ValidationException extends ExceptionDetail{
+public class ValidationException extends ExceptionDetail {
 
 
     private List<FieldValidation> fieldErros = new ArrayList<>();
 
 
-    public void addFieldError(FieldValidation fieldValidation){
+    public void addFieldError(FieldValidation fieldValidation) {
         this.fieldErros.add(fieldValidation);
     }
 

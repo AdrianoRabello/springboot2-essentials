@@ -1,15 +1,16 @@
 package academy.devdojo.springboot2.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class AnimeDTO {
 
@@ -19,4 +20,5 @@ public class AnimeDTO {
     private String name;
     private LocalDateTime created;
     private LocalDateTime updated;
+
 }

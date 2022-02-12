@@ -25,7 +25,6 @@ public class RestExceptionHandler {
                         .title("Bad request teste")
                         .detail(br.getMessage())
                         .status(HttpStatus.BAD_REQUEST.value())
-
                         .build(), HttpStatus.BAD_REQUEST
         );
 

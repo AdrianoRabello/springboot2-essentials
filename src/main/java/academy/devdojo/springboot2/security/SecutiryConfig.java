@@ -3,6 +3,7 @@ package academy.devdojo.springboot2.security;
 import academy.devdojo.springboot2.service.DevDojoUserDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,19 +17,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  **/
 @EnableWebSecurity
 @Slf4j
-@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecutiryConfig extends WebSecurityConfigurerAdapter {
 
-    private final DevDojoUserDetailService devDojoUserDetailService;
+    @Autowired
+    private DevDojoUserDetailService devDojoUserDetailService;
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable().authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/animes/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/animes/**").hasAnyRole("USER")
+                .antMatchers("/animes").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
@@ -37,13 +38,16 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
+        log.info("log info {} " , passwordEncoder.encode("123456"));
+        auth.userDetailsService(devDojoUserDetailService).passwordEncoder(passwordEncoder);
         auth.inMemoryAuthentication()
                 .withUser("adriano.rabello")
-                .password(passwordEncoder.encode("Milk1903"))
+                .password(passwordEncoder.encode("123456"))
                 .roles("USER");
 
-        log.info(passwordEncoder.encode("Milk1903"));
-        auth.userDetailsService(devDojoUserDetailService).passwordEncoder(passwordEncoder);
+
+        super.configure(auth);
+
+
     }
 }

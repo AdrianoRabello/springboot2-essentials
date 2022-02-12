@@ -14,10 +14,13 @@ import java.util.Optional;
  * @autor adriano rabello 15/07/2021 5:11 PM
  **/
 @Service
-@RequiredArgsConstructor
 public class DevDojoUserDetailService implements UserDetailsService {
 
-    private final DevDojoUserRepository devDojoUserRepository;
+    private DevDojoUserRepository devDojoUserRepository;
+
+    public DevDojoUserDetailService(DevDojoUserRepository devDojoUserRepository) {
+        this.devDojoUserRepository = devDojoUserRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

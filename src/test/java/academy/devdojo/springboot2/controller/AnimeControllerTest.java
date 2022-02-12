@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class AnimeControllerTest {
 
         PageImpl<AnimeDTO> animePage = new PageImpl<>(List.of(AnimeDataPol.getAnimeDTOSaved()));
 
-        Mockito.when(animeService.findAll(ArgumentMatchers.any(PageRequest.class))).thenReturn(animePage);
+        Mockito.when(animeService.findAll(Mockito.any())).thenReturn(animePage);
 
         Mockito.when(animeService.findAll()).thenReturn(List.of(AnimeDataPol.getAnimeDTOSaved(), AnimeDataPol.getAnimeDTOSaved()));
 

@@ -7,7 +7,7 @@ public class AnimeParse {
 
     public static Anime parseAnimeDTOToAnime(AnimeDTO dto){
 
-        return Anime.builder()
+        return new Anime.Builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .created(dto.getCreated())

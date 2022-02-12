@@ -21,21 +21,22 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("animes")
-@RequiredArgsConstructor
+@RequestMapping("/animes")
 @Slf4j
 public class AnimeController {
 
-    private final AnimeService animeService;
+    private AnimeService animeService;
 
+    public AnimeController(AnimeService animeService) {
+        this.animeService = animeService;
+    }
+
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     @Operation(summary = "Sumary of peration of get method ",description = "Descriptio of get method ")
     public ResponseEntity<List<AnimeDTO>> list(){
-
         return ResponseEntity.ok().body(animeService.findAll());
     }
-
-
 
     @GetMapping(value = "/pageable")
     public ResponseEntity<Page<AnimeDTO>> page(@ParameterObject() Pageable pageable){
@@ -49,7 +50,6 @@ public class AnimeController {
             @ApiResponse(responseCode = "404", description = "When not found"),
     })
     public ResponseEntity<AnimeDTO> findById(@PathVariable Long id){
-
         log.info("get anime by id");
         AnimeDTO anime = animeService.findById(id);
         return ResponseEntity.ok().body(anime);
@@ -67,7 +67,6 @@ public class AnimeController {
         log.info("updeting anime");
         AnimeDTO anime = animeService.update(dto);
         return new ResponseEntity<>(anime, HttpStatus.NO_CONTENT);
-
     }
 
     @DeleteMapping("/admin/{id}")
